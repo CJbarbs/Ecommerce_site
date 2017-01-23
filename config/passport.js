@@ -2,7 +2,6 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 
-
 // serialize and deserialize
 passport.serializeUser(function(user, done) {
   done(null, user._id);
@@ -14,7 +13,8 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-//middleware
+
+//Middleware
 passport.use('local-login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
@@ -28,12 +28,11 @@ passport.use('local-login', new LocalStrategy({
     }
 
     if (!user.comparePassword(password)) {
-      return done(null, false, req.flash('loginMessage', 'oops! wrong password bud'));
+      return done(null, false, req.flash('loginMessage', 'Oops! Wrong Password pal'));
     }
-    return done(null, user)
+    return done(null, user);
   });
 }));
-
 
 //custom function to validate
 exports.isAuthenticated = function(req, res, next) {

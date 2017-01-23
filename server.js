@@ -38,7 +38,11 @@ app.use(session({
 }));
 app.use(flash());
 app.use(passport.initialize());
-app.use(passport.session);
+app.use(passport.session());
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+})
 
 app.engine('ejs', engine); //requring the view engine 'Embedded Javascript'
 app.set('view engine', 'ejs'); //setting the view engine
