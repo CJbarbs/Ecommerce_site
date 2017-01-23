@@ -13,9 +13,10 @@ var passport = require('passport');
 
 var secret = require('./config/secret');
 var User = require('./models/user');
+var Category = require('./models/category');
 
 var app = express();
-//using a remoote mongoose database hosted by mlab, 'secret' is the remote mogoose connection path which is stored in a seperate file
+//using a remote mongoose database hosted by mlab, 'secret' is the remote mogoose connection path which is stored in a seperate file
 mongoose.connect(secret.database, function(err) {
   if (err) {
     console.log(err);
@@ -42,17 +43,29 @@ app.use(passport.session());
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   next();
-})
+});
 
-app.engine('ejs', engine); //requring the view engine 'Embedded Javascript'
+app.use(function(req, res, next) {
+  Category.find({}, function(err, categories) {
+    if (err) return next(err);
+    res.locals.categories = categories;
+    next();
+  });
+});
+
+//requring the view engine 'Embedded Javascript'
+app.engine('ejs', engine);
 app.set('view engine', 'ejs'); //setting the view engine
 
-//requring the main routes for the app from the routes folder
+//requiring the routes that the app will be using from the routes folder
 var mainRoutes = require('./routes/main');
 var userRoutes = require('./routes/user');
-//using the routes files
+var adminRoutes = require('./routes/admin');
+
+//using the route files
 app.use(mainRoutes);
 app.use(userRoutes);
+app.use(adminRoutes);
 
 //setting the port to the port number specified in the secret.js file
 app.listen(secret.port, function(err) {
