@@ -61,11 +61,13 @@ app.set('view engine', 'ejs'); //setting the view engine
 var mainRoutes = require('./routes/main');
 var userRoutes = require('./routes/user');
 var adminRoutes = require('./routes/admin');
+var apiRoutes = require('./api/api');
 
 //using the route files
 app.use(mainRoutes);
 app.use(userRoutes);
 app.use(adminRoutes);
+app.use('/api', apiRoutes);
 
 //setting the port to the port number specified in the secret.js file
 app.listen(secret.port, function(err) {
