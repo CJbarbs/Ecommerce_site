@@ -4,7 +4,18 @@ var faker = require('faker');
 var Category = require('../models/category');
 var Product = require('../models/product');
 
-//asynchronous executing
+//instant search api
+router.post('/search', function(req, res, next) {
+  console.log(req.body.search_term);
+  Product.search({
+    query_string: { query: req.body.search_term }
+  }, function(err, results) {
+    if (err) return next(err);
+    res.json(results);
+  })
+});
+
+//asynchronous executing to populate with fake product data
 router.get('/:name', function(req, res, next) { //searching the name of the product category into the url
   async.waterfall([
     function(callback){      //below in req.params.name will be the searched product category, if found will be passed into a callback
