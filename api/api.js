@@ -39,5 +39,5 @@ router.get('/:name', function(req, res, next) { //searching the name of the prod
   ]);
   res.json({ message: 'Success '});
 });
-//exporting as always
+
 module.exports = router;
