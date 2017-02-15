@@ -26,6 +26,7 @@ Planned future improvements is having a social network login and integrating str
 ### Technologies Stack
 ## Front-end
 * EJS (templating engine)
+
 ## Back-end
 * Node.js
 * express
